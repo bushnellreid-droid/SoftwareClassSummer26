@@ -13,7 +13,7 @@ public class CollectorTemplate {
     // declare your instance data below
 
 
-    public CollectorTemplate(HardwareMap hardwareMap) {}
+    public CollectorTemplate(HardwareMap hardwareMap, Telemetry telemetry) {}
 
     public void update() {
         // switch statement goes here

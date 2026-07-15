@@ -1,47 +1,56 @@
-Class Requirements-----------------
+Class Requirements
+an enum called TurretState with the states OFF and POINT_AT_ANGLE
+instance data holding the motor, called turretMotor (variable type is DcMotorEx)
+instance data holding the current turret angle, called currentAngle (variable type is double)
+instance data holding a PID controller, called pid (variable type is PIDController)
+instance data holding the target angle, called targetAngle (variable type is double)
+instance data of the TurretState enum
+instance data of a telemetry object
 
-Static variables-----
-double radiansPerEncoder
-double kP
-double kI
-double kD
+all instance data should be private
+when appropriate, make instance data final
 
-Instance Data-----
-turretMotor (datatype DcMotorEx)
-currentAngle (datatype double)
-pid (datatype PIDController)
-targetAngle (datatype double)
-an enum called TurretState with the states POINT_AT_ANGLE & OFF
-instance data of enum
+must be configurable in FTC Dashboard (ask us if you don't know what this means)
 
-a constructor taking in HardwareMap and instantiating all instance data above
+create static variables radiansPerEncoder, kP, kI, and kD (all datatype double)
+- you will tune and find these values on day 2
+
+a constructor taking in HardwareMap and Telemetry and instantiating all instance data above
 
 an update function
-- should calculate turret angle
-- if state is OFF, turret should have 0 power
-- if state is POINT_AT_ANGLE, a PID should always be active, controlling the turret to the targetAngle variable
-
-a printTelemetry function
-- takes in Telemetry as parameter and prints valuable info to telemetry (you decide what's valuable)
+- should calculate the current turret angle from the motor encoder
+- has an enum switch statement that sets motor power depending on which state the turret is in
+  - if state is OFF, turret should have 0 power
+  - if state is POINT_AT_ANGLE, a PID should always be active, controlling the turret to the targetAngle variable
+- prints "TURRET----------" for the header to telemetry
+- beneath it, print valuable info to telemetry (you decide what's valuable)
 
 a getTurretState function
-- returns turretState
+- returns current turret state
 
 a setTurretState function
-- takes a TurretState parameter
-- sets the turret state instance data to the parameter
+- takes 1 parameter (datatype TurretState)
+- sets the turret state of the turret to the parameter
+
+a getCurrentAngle function
+- returns the current turret angle
 
 a setTargetAngle function
 - takes a double parameter
 - sets the targetAngle instance data to the parameter
 
+a resetTurretEncoder function
+- resets the motor encoder
+- sets the currentAngle instance data to 0
+- make sure to set the motor back to the proper mode at the end of the function
+
 **-----CHALLENGE-----**
-add a static variable called bangbangPower (datatype double)
+add a static variable called bangBangPower (datatype double)
 add an instance variable called targetDirection (datatype double)
 add an enum state called SWING_PAST_ANGLE
 
 In the update function:
-- if state is SWING_PAST_ANGLE, you should set power to bangbangPower in the direction of the targetAngle until the encoder surpasses the targetAngle; then, the state should switch to off
+- if state is SWING_PAST_ANGLE, you should set power to bangBangPower in the direction of the targetAngle until the encoder surpasses the targetAngle; then, the state should switch to off
 
 You should re-calculate targetDirection in the setTurretState function only if the desired state equals SWING_PAST_ANGLE
 

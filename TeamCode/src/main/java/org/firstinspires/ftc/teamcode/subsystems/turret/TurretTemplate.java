@@ -1,30 +1,38 @@
 package org.firstinspires.ftc.teamcode.subsystems.turret;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+@Config
 public class TurretTemplate {
 
-    // instantiate static variables below
+    // declare your static variables below
 
-    // instantiate instance variables below
-    private DcMotorEx turretMotor;
-    public TurretTemplate(HardwareMap hardwareMap) {
-    }
+    // declare your instance data below
+
+
+    public TurretTemplate(HardwareMap hardwareMap, Telemetry telemetry) {}
 
     public void update() {
-        // calculate targetAngle below
+        // calculate the current turret angle below
 
 
-        // add your switch statement below
+        // switch statement goes here
 
     }
 
-    public void printTelemetry(Telemetry telemetry) {
-    }
-
-    // your getters and setters go below
-
+    // finish these functions below
+//    public TurretState getTurretState() {
+//    }
+//    public void setTurretState(TurretState turretState) {
+//    }
+//    public double getCurrentAngle() {
+//    }
+//    public void setTargetAngle(double target) {
+//    }
+//    public void resetTurretEncoder() {
+//    }
 }

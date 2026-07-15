@@ -23,14 +23,14 @@ public class LocalizationTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            // why is linearPowers declared as (-y, -x) instead of (x, y)?????
+            // why is linearPowers declared as (-y, -x) instead of (x, y)????? figure it out
             Vector2d linearPowers = new Vector2d(-gamepad1.left_stick_y, -gamepad1.left_stick_x);
             double turnPower = gamepad1.right_stick_x;
             drive.setDrivePowers(new PoseVelocity2d(linearPowers, turnPower));
 
             drive.updatePoseEstimate();
 
-            Pose2d pose = drive.localizer.getPose();
+            Pose2d pose = drive.pinpoint().getPose();
             telemetry.addData("x", pose.position.x);
             telemetry.addData("y", pose.position.y);
             telemetry.addData("heading (deg)", Math.toDegrees(pose.heading.toDouble()));

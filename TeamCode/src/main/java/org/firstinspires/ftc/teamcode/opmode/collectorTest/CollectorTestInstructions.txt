@@ -1,0 +1,28 @@
+Class Requirements
+a LinearOpMode called CollectorTest, annotated with @TeleOp
+
+in runOpMode
+- set telemetry to a MultipleTelemetry so it shows on both FTC Dashboard and the driver station
+- set the telemetry transmission interval to 20 (loop times are 20ms, so telemetry refreshes 50x per second)
+- instantiate your Collector class, passing in hardwareMap and telemetry
+- print "Ready" to telemetry and update it
+- call waitForStart()
+
+write a while loop when opModeIsActive()
+- if gamepad1's right trigger is pressed past .1, set the collector to INTAKE
+- else if gamepad1's left trigger is pressed past .1, set the collector to OUTTAKE
+- if neither are true, set the collector to OFF
+- call telemetry.update() at the end of the loop
+side note: telemetry.update() should always go in the opMode, not in the subsystem class
+
+
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT

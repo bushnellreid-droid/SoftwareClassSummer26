@@ -1,0 +1,33 @@
+Class Requirements
+a LinearOpMode called TurretTest, annotated with @TeleOp
+must be configurable in FTC Dashboard (ask us if you don't know what this means)
+
+create a static variable called targetAngle (datatype double)
+- when testing, you will set this from FTC Dashboard to choose what angle the turret should point at
+
+in runOpMode
+- set telemetry to a MultipleTelemetry so it shows on both FTC Dashboard and the driver station
+- set the telemetry transmission interval to 20 (loop times are 20ms, so telemetry refreshes 50x per second)
+- instantiate your Turret class, passing in hardwareMap and telemetry
+- print "Ready" to telemetry and update it
+- call waitForStart()
+
+while opModeIsActive()
+- every loop, set the turret's target angle to the targetAngle static variable (this lets you retune the target angle live from FTC Dashboard)
+- if gamepad1's a button is pressed, set the turret state to OFF
+- if gamepad1's b button is pressed, set the turret state to POINT_AT_ANGLE
+- if gamepad1's x button is pressed, set the turret state to SWING_PAST_ANGLE
+- call the turret's update function
+- call telemetry.update() at the end of the loop (telemetry.update() should always go in the opMode, not in the subsystem class)
+
+
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT
+GOOD VARIABLE NAMES ARE IMPORTANT

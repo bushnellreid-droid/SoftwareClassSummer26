@@ -12,8 +12,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class MecanumDrive {
-    public final DcMotorEx leftFront, leftBack, rightBack, rightFront;
-    public final Localizer localizer;
+    private final DcMotorEx leftFront, leftBack, rightBack, rightFront;
+    private final PinpointLocalizer pinpoint;
 
     public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
         // TODO: make sure your config has motors with these names (or change them)
@@ -32,12 +32,9 @@ public class MecanumDrive {
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        localizer = new PinpointLocalizer(hardwareMap, pose);
+        pinpoint = new PinpointLocalizer(hardwareMap, pose);
     }
 
-    public PinpointLocalizer pinpoint() {
-        return (PinpointLocalizer) localizer;
-    }
     public void setDrivePowers(PoseVelocity2d powers) {
         MecanumKinematics.WheelVelocities<Time> wheelVels = new MecanumKinematics(1).inverse(
                 PoseVelocity2dDual.constant(powers, 1));
@@ -54,7 +51,7 @@ public class MecanumDrive {
     }
 
     public void updatePoseEstimate() {
-        localizer.update();
+        pinpoint.update();
     }
 
 
@@ -66,5 +63,9 @@ public class MecanumDrive {
     }
     public String getDrivePowersString() {
         return leftFront.getPower() + " " + rightFront.getPower() + " " + leftBack.getPower() + " " + rightBack.getPower();
+    }
+
+    public PinpointLocalizer pinpoint() {
+        return pinpoint;
     }
 }

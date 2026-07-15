@@ -27,9 +27,9 @@ public class CollectorChallengeAnswerKey {
     }
 
     public void update() {
-        telemetry.addLine("---INTAKE---");
-        telemetry.addData("I state", intakeState);
-        telemetry.addData("I power", intakeMotor.getPower());
+        telemetry.addLine("---COLLECTOR---");
+        telemetry.addData("C state", intakeState);
+        telemetry.addData("C power", intakeMotor.getPower());
         // YOU SHOULD NOT HAVE A "telemetry.update();" HERE
     }
 

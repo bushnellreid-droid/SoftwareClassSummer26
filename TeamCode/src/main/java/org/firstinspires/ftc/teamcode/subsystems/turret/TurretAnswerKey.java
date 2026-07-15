@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems.turret;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -10,12 +11,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Config
 public class TurretAnswerKey {
 
-    // you will tune and fine these values on day 2
+    // you will tune and find these values on day 2
     public static double radiansPerEncoder = 0;
     public static double kP = 0;
     public static double kI = 0;
     public static double kD = 0;
-    public static double bangbangPower = 0;
+    public static double bangBangPower = 0;
 
     private final DcMotorEx turretMotor;
     private double currentAngle;
@@ -29,20 +30,30 @@ public class TurretAnswerKey {
         SWING_PAST_ANGLE
     }
     private TurretState turretState;
+    private final Telemetry telemetry;
 
-    public TurretAnswerKey(HardwareMap hardwareMap) {
+    public TurretAnswerKey(HardwareMap hardwareMap, Telemetry telemetry) {
+        this.telemetry = telemetry;
+
         turretMotor = hardwareMap.get(DcMotorEx.class, "turret");
+        resetTurretEncoder();
         pid = new PIDController(kP, kI, kD);
         setTurretState(TurretState.OFF);
-        update(); // I'm calling update() to update the currentAngle variable
     }
 
     public void update() {
         // updating turret angle
-        int turretEncoder = turretMotor.getCurrentPosition();
+        // with bulk caching off, the getCurrentPosition function does a hardware call every single time
+        // to minimize loop times, save the value once at the start of the update function then reuse it whenever you want
+        double turretEncoder = turretMotor.getCurrentPosition();
+        // note how currentAngle IS instance data and turretEncoder IS NOT because there is no need to make both instance data
+        // it is good practice to minimize the amount of instance data your classes have because instance data is much harder to read vs local variables
         currentAngle = turretEncoder * radiansPerEncoder;
 
         // updating pid values from dashboard (optional)
+        // previously you might have wondered why some pid values require you to restart the op mode to update, and some don't
+        // when you update pid values in the update function (which is called every loop), you won't need to restart the op mode to update the values
+        // if you didn't have this line of code though, you would have to restart the op mode
         pid.setPID(kP, kI, kD);
 
         switch(turretState) {
@@ -57,16 +68,14 @@ public class TurretAnswerKey {
             // this is the challenge portion
             case SWING_PAST_ANGLE:
                 if(Math.signum(targetAngle - currentAngle) == targetDirection)
-                    turretMotor.setPower(bangbangPower * targetDirection);
+                    turretMotor.setPower(bangBangPower * targetDirection);
                 else {
                     turretMotor.setPower(0);
                     setTurretState(TurretState.OFF);
                 }
                 break;
         }
-    }
 
-    public void printTelemetry(Telemetry telemetry) {
         telemetry.addLine("TURRET----------");
         telemetry.addData("T state", turretState);
         telemetry.addData("T power", turretMotor.getPower());
@@ -83,10 +92,20 @@ public class TurretAnswerKey {
 
         // this is the challenge portion
         if(turretState == TurretState.SWING_PAST_ANGLE)
-            targetDirection = Math.signum(targetAngle - currentAngle);
+            targetDirection = Math.signum(targetAngle - getCurrentAngle());
     }
 
+    public double getCurrentAngle() {
+        return currentAngle;
+    }
     public void setTargetAngle(double target) {
         this.targetAngle = target;
     }
+
+    public void resetTurretEncoder() {
+        turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        currentAngle = 0; // reset the currentAngle instance data or else it will be outdated
+        turretMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // need to remember to set mode back to RUN_WITHOUT_ENCODER or else it will stay in STOP_AND_RESET_ENCODER mode
+    }
+
 }

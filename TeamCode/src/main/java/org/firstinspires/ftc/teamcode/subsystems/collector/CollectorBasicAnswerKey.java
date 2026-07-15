@@ -42,8 +42,8 @@ public class CollectorBasicAnswerKey {
         // note: FTC Dashboard displays telemetry alphabetically, so if you want your collector telemetry to group together keep that in mind
         // you don't need to copy this format, but you should find some way to keep your telemetry organized
         telemetry.addLine("---COLLECTOR---");
-        telemetry.addData("collector state", intakeState);
-        telemetry.addData("collector power", intakeMotor.getPower());
+        telemetry.addData("C state", intakeState);
+        telemetry.addData("C power", intakeMotor.getPower());
         // YOU SHOULD NOT HAVE A "telemetry.update();" HERE
     }
 
